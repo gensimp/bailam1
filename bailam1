@@ -1,0 +1,52 @@
+#include<iostream>
+#include<fstream>
+using namespace std;
+
+struct NhanVien{
+	string maso,hoten;
+	float hs;
+	long lcb,pc;
+};
+
+void nhapnv(){
+	NhanVien nv;
+	cin>>nv.maso;
+	cin.ignore();
+	getline(cin,nv.hoten);
+	cin>>nv.hs>>nv.lcb>>nv.pc;
+	//1.mo file
+	fstream f;
+	f.open("NhanVien.txt",ios::out);
+	
+	//2.ghi du lieu
+	f<<nv.maso<<endl<<nv.hoten<<endl<<nv.hs<<endl<<nv.lcb<<endl<<nv.pc;
+	 
+	//3.dong file
+	f.close();
+	
+}
+
+void docnv(){
+	//1.mo file
+	fstream f;
+	f.open("NhanVien.txt",ios::in);
+	
+	//2.doc file
+	NhanVien nvm;
+	f>>nvm.maso;
+	f.ignore();
+	getline(f,nvm.hoten);
+	f>>nvm.hs>>nvm.lcb>>nvm.pc;
+	cout<<nvm.hs*nvm.lcb+nvm.pc<<endl;
+	
+	//3.dong file
+	f.close();
+}
+
+int main(){
+	for (int i=0;i<10;i++){
+		nhapnv();
+		docnv();
+	}
+	return 0;
+}
