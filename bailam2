@@ -1,0 +1,43 @@
+#include <iostream>
+#include <iomanip>
+using namespace std;
+//1.khai bao lop
+class Sinhvien{
+	
+	//thuoc tinh
+	string maso,hoten,lop,email;
+	
+	//phuong thuc
+	public:
+		Sinhvien(){
+			maso="";
+			hoten="";
+			lop="";
+			email="";
+		}
+		
+		void nhapsv(){
+			getline(cin,maso);
+			getline(cin,hoten);
+			cin>>lop;
+			cin>>email;
+		}
+		
+		bool cmp(Sinhvien a,Sinhvien b){
+			if(a.lop==b.lop) return a.maso<b.maso;
+			return a.lop<b.lop;
+		}
+		void insv(){
+			
+		}
+};
+
+int main(){
+	int n;cin>>n;
+	cin.ignore();
+	Sinhvien sv[1000];
+	for (int i=0;i<n;i++) sv.nhapsv;
+	sort(sv,sv+n,cmp);
+	sv.insv;
+	return 0;
+}
