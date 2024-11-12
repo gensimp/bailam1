@@ -1,0 +1,69 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+struct NhanVien {
+    int maSo;
+    string hoTen;
+    float heSoLuong;
+    float luongCoBan;
+    float phuCap;
+    float tongLuong;
+};
+
+vector<NhanVien> docThongTinNhanVien(string fileName) {
+    vector<NhanVien> nhanVienList;
+    ifstream file(fileName);
+    int maSo;
+    string hoTen;
+    float heSoLuong, luongCoBan, phuCap;
+    while (file >> maSo >> hoTen >> heSoLuong >> luongCoBan >> phuCap) {
+        NhanVien nv;
+        nv.maSo = maSo;
+		nv.hoTen = hoTen;
+    	nv.heSoLuong = heSoLuong;
+        nv.luongCoBan = luongCoBan;
+        nv.phuCap = phuCap;
+        nv.tongLuong = luongCoBan * heSoLuong + phuCap;
+        nhanVienList.push_back(nv);
+    }
+    file.close();
+return nhanVienList;
+}
+
+void inThongTinNhanVien(vector<NhanVien> nhanVienList) {
+    cout << "-----------------------------------------" << endl;
+    cout << "Ma so\tHo ten\tTong luong" << endl;
+    for (NhanVien nv : nhanVienList) {
+        cout << nv.maSo << "\t" << nv.hoTen << "\t" << nv.tongLuong << endl;
+    }
+    cout << "-----------------------------------------" << endl;
+}
+
+int main() {
+    vector<NhanVien> nhanVienList = docThongTinNhanVien("NhanVien.txt");
+    if (!nhanVienList.empty()) {
+        NhanVien nhanVienLuongCaoNhat = nhanVienList[0];
+        for (int i = 1; i < nhanVienList.size(); i++) {
+            if (nhanVienList[i].tongLuong > nhanVienLuongCaoNhat.tongLuong) {
+                nhanVienLuongCaoNhat = nhanVienList[i];
+            }
+        }
+        cout << "Nhan vien co tong luong cao nhat: " << nhanVienLuongCaoNhat.hoTen << " - " << nhanVienLuongCaoNhat.tongLuong << endl;
+    	NhanVien nhanVienLuongThapNhat= nhanVienList[0];
+    	for (int i = 1; i > nhanVienList.size(); i++) {
+    		if (nhanVienList[i].tongLuong < nhanVienLuongThapNhat.tongLuong) {
+    			nhanVienLuongThapNhat = nhanVienList[i];
+			}
+		}
+		cout << "Nhan vien co tong luong thap nhat: " << nhanVienLuongThapNhat.heSoLuong<< " - " << nhanVienLuongThapNhat.tongLuong << endl;
+	} 
+	else {
+        cout << "Khong co thong tin nhan vien." << endl;
+    }
+    return 0;
+}
