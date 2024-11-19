@@ -1,0 +1,74 @@
+#include<iostream>
+#include<string>
+#include<fstream>
+#include<algorithm>
+using namespace std;
+
+//khai bao lop
+class Nhanvien{
+	//thuoc tinh
+	private:
+		string maso,hoten;
+		float heso;
+		long lcb,pc;
+	//phuong thuc
+	public:static long tongluong;
+	public:
+		void nhap(fstream &f){
+			cin>>maso;
+			cin.ignore();
+			getline(cin,hoten);
+			cin>>heso>>lcb>>pc;
+			
+			f<<maso<<"\n"<<hoten<<"\n"<<heso<<"\n"<<lcb<<"\n"<<pc<<endl;
+		}
+		
+		long tinhtongluong(){
+			tongluong+=lcb*heso+pc;
+			return lcb*heso+pc;
+		}
+		
+		void in(fstream &f){
+			f>>maso;
+			f.ignore();
+			getline(f,hoten);
+			f>>heso>>lcb>>pc;
+			
+		}
+		string getmaso(){
+			return maso;
+		}
+};
+
+bool cmp(Nhanvien a, Nhanvien b){
+	return a.tinhtongluong()<b.tinhtongluong();
+}
+//tao doi tuong cua lop
+
+
+//yeu cau doi tuong thuc thi hanh vi
+long Nhanvien::tongluong=0;
+
+int main(){
+	fstream f;
+	f.open("Nhanvien.tx",ios::out|ios::app);
+	int n;cin>>n;
+	Nhanvien nv[n];
+	for (int i=0;i<n;i++){
+		nv[i].nhap(f);
+	}
+	f.close();
+	
+	f.open("Nhanvien.txt",ios::in);
+	for (int i=0;i<n;i++){
+		nv[i].in(f);
+		cout<<nv[i].getmaso()<<": "<<nv[i].tinhtongluong()<<endl;
+	}
+	f.close();
+	
+	sort(nv,nv+n,cmp);
+	cout<<"thap nhat: "<<nv[0].getmaso()<<endl;
+	cout<<"cao nhat: "<<nv[n-1].getmaso()<<endl;
+	cout<<Nhanvien::tongluong<<endl;
+	return 0;
+}
